@@ -1,11 +1,9 @@
 import socket
 
-# HOST = '127.0.0.1'
-
 HOST = socket.gethostbyname("")
 PORT = 7575
 
-option01 = "Elba"
+option01 = "Dennis"
 option02 = "Close"
 option03 = "Default"
 
@@ -27,8 +25,7 @@ while True:
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST, PORT))
-        # s.send(b'Hello Dennis')
-        s.sendall(msg.encode()) # se asegura de que toda la info se envie a diferencia de send()
+        s.sendall(msg.encode())
         data = s.recv(1024)
 
     print('Received:', repr(data))
