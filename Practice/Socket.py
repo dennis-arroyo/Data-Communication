@@ -19,9 +19,10 @@ def client_thread(conn, add, cl):
         reply = data.decode()
         if not data:
             break
-        for c in cl:
-            print(c)
-            c.sendall(reply.encode())
+        else:
+            for c in cl:
+                print(c)
+                c.sendall(reply.encode())
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
