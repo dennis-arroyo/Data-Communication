@@ -21,8 +21,8 @@ def client_thread(conn, add, cl):
             break
         else:
             for c in cl:
-                print(c)
-                c.sendall(reply.encode())
+                if s is not c:
+                    c.sendall(reply.encode())
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
