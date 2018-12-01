@@ -1,17 +1,40 @@
 import socket
+from _thread import *
 
-s = socket.socket()         # Create a socket object
-host = socket.gethostname() # Get local machine name
-port = 12345                # Reserve a port for your service.
-s.bind((host, port))        # Bind to the port
+# HOST = '127.0.0.1'
 
-s.listen(5)                 # Now wait for client connection.
-while True:
-   c, addr = s.accept()     # Establish connection with client.
-   print('Got connection from', addr)
+HOST = socket.gethostbyname("")
 
-   str = "Thank you for connecting"
+PORT = 7575
 
-   c.send(str.encode())
-   c.close()
+clients = {}
+connections = []
+# player = 1
+player = ""
 
+
+def client_thread(conn, add, cl):
+    while True:
+        data = conn.recv(1024)
+        reply = data.decode()
+        if not data:
+            break
+        for c in cl:
+            print(c)
+            c.sendall(reply.encode())
+
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen()
+
+    while True:
+        obj = s.accept()
+        connection, address = obj
+        print(connection)
+        # clients[address[0] + ": " + str(address[1])] = "Player #" + str(player)
+        player = connection.recv(1024)
+        clients[address[0] + ":" + str(address[1])] = player.decode()
+        connections.append(connection)
+        # player += 1
+        start_new_thread(client_thread, (connection, address, connections))
