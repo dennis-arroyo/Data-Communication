@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef4e62c0-33fb-4bfb-a3d4-a29bc83bad2d" name="Default Changelist" comment="Changes in socket files">
-      <change afterPath="$PROJECT_DIR$/tkinter_gui/HomeScreen.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tkinter_gui/test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tkinter_gui/test02.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ef4e62c0-33fb-4bfb-a3d4-a29bc83bad2d" name="Default Changelist" comment="Changes in socket files" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,27 +86,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Gui/KivyTest.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-start-line="1" selection-end-line="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AppGui/HomeScreen.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="27" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tkinter_gui/HomeScreen.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -446,14 +420,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49910232" visible="true" weight="0.2811159" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50089765" side_tool="true" weight="0.2746781" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5107296" side_tool="true" visible="true" weight="0.2987952" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5107296" side_tool="true" visible="true" weight="0.2987952" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49713877" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -462,7 +435,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49570817" weight="0.32891566" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4892704" visible="true" weight="0.2987952" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4892704" visible="true" weight="0.2987952" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.49785408" weight="0.32891566" />
       <window_info anchor="bottom" id="Messages" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
