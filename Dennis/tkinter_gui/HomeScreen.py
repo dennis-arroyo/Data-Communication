@@ -13,25 +13,40 @@ def game_instructions():
 
 root = Tk()
 
-leftFrame = Frame(root)
-rightFrame = Frame(root)
+windowWidth = root.winfo_reqwidth()
+windowHeight = root.winfo_reqheight()
 
-instructions = Label(leftFrame, text=game_instructions(), font=("Times New Roman", 12), anchor=W, justify=LEFT)
-instructions.grid(row=0, column=0)
+positionRight = int(root.winfo_screenwidth()/2 - windowWidth/2)
+positionDown = int(root.winfo_screenheight()/2 - windowHeight/2)
 
-divisionLine = Frame(leftFrame, height=50, width=1, bg="black")
-divisionLine.grid(row=0, column=1)
+root.geometry("850x600+"+str(positionDown)+"+"+str(positionRight))
+root.resizable(0, 0)
 
-label = Label(rightFrame, text="Enter Username:", font=("Times New Roman", 12))
+frame = Frame(root, width=800)
+bottomFrame = Frame(root, width=860)
+
+# leftFrame.grid(row=0, column=0)
+# rightFrame.grid(row=1, column=0)
+
+frame.pack()
+bottomFrame.pack(side=BOTTOM)
+
+title = Label(frame, text="SOME GAME", font=("Arial", 25))
+title.grid(row=0, column=0)
+
+instructions = Label(frame, text=game_instructions(), font=("Times New Roman", 18), anchor=W, justify=LEFT)
+instructions.grid(row=1, column=0)
+
+divisionLine = Frame(frame, height=1, width=800)
+divisionLine.grid(row=2, column=0, pady=80)
+
+label = Label(bottomFrame, text="Enter Username:", font=("Times New Roman", 20))
 label.grid(row=0, column=0)
 
-inputField = Entry(rightFrame)
+inputField = Entry(bottomFrame, text="Username...", width=50)
 inputField.grid(row=1, column=0)
 
-button = Button(rightFrame, text="Connect")
+button = Button(bottomFrame, text="Connect")
 button.grid(row=2, column=0)
-
-leftFrame.grid(row=0, column=0)
-rightFrame.grid(row=0, column=1)
 
 root.mainloop()
