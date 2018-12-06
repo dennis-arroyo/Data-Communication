@@ -1,7 +1,16 @@
 from tkinter import *
 import random
+import socket
+import time
+
+HOST = socket.gethostname()
+PORT = 7575
 
 count = 0
+
+playerName = ""
+
+players = {}
 
 
 def game_instructions():
@@ -26,6 +35,43 @@ def goal_click():
         win = Button(rightFrame, text="Exit", bg="red", fg="white", command=rightFrame.destroy)
         win.place(x=425, y=300)
         win.pack
+
+
+def init_connection():
+    global playerName
+    playerName = inputField.get()
+    if playerName is not "":
+        connectButton.destroy()
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            print(HOST)
+            s.connect((HOST, PORT))
+
+            s.sendall(playerName.encode())
+
+            # goal = Button(rightFrame, text="Start", bg="red", fg="white", command=goal_click)
+            # photo = PhotoImage(file='Pi.PNG')
+            # goal.config(image=photo)
+            # goal.pack()
+            # goal.place(x=random.randrange(0, windowWidth / 2), y=random.randrange(0, windowHeight))
+
+            # button = Button(leftBottom, text="Refresh", fg="#f2dde4", command=refresh_data)
+            # button.grid(row=3, column=0, pady=(10, 10))
+
+            # textbox.config(state=NORMAL)
+            # textbox.insert(END, data + " connected" + '\n')
+            # textbox.config(state=DISABLED)
+
+            data = s.recv(1024)
+            textbox.config(state=NORMAL)
+            textbox.insert(END, data.decode() + " connected" + '\n')
+            textbox.config(state=DISABLED)
+
+
+def refresh_data():
+    data = s.recv(1024)
+    textbox.config(state=NORMAL)
+    textbox.insert(END, data.decode() + " connected" + '\n')
+    textbox.config(state=DISABLED)
 
 
 root = Tk()
@@ -59,8 +105,6 @@ leftBottom = Frame(leftFrame, bg="#f2dde4")
 # leftBottom = Frame(leftFrame, bg="#847479")
 leftBottom.pack(side=BOTTOM, fill=BOTH, expand=TRUE)
 
-players = ["Angel", "Dennis"]
-
 # textbox = Text(leftTop, bg="#8b44b3", fg="#44b38b")
 textbox = Text(leftTop, fg="#44b38b")
 textbox.pack(fill=BOTH, expand=TRUE)
@@ -73,13 +117,6 @@ for player in players:
 
 textbox.config(state=DISABLED)
 
-goal = Button(rightFrame, text="Start", bg="red", fg="white", command=goal_click)
-photo = PhotoImage(file='Pi.PNG')
-goal.config(image=photo)
-goal.pack()
-goal.place(x=random.randrange(0, windowWidth/2), y=random.randrange(0, windowHeight))
-
-
 instructions = Label(leftBottom, text=game_instructions(), font=("Times New Roman", 14),
                      justify=LEFT, bg="#f2dde4", fg="#080305")
 instructions.grid(row=0, column=0, pady=(50, 10))
@@ -90,7 +127,7 @@ label.grid(row=1, column=0, pady=(10, 10))
 inputField = Entry(leftBottom, text="Username...", width=50)
 inputField.grid(row=2, column=0, pady=(10, 10))
 
-button = Button(leftBottom, text="Connect", fg="#f2dde4")
-button.grid(row=3, column=0, pady=(10, 10))
+connectButton = Button(leftBottom, text="Connect", fg="#f2dde4", command=init_connection)
+connectButton.grid(row=3, column=0, pady=(10, 10))
 
 root.mainloop()
