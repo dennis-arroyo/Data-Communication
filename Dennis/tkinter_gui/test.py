@@ -2,12 +2,17 @@ from tkinter import *
 
 root = Tk()
 
-# Label(Tk(), text="some text")
-label = Label(root, text="Dennis")
+leftFrame = Frame(root, width=200, height=500, bg="red")
+leftFrame.pack(side=LEFT)
 
-# Pack it in the first place it sees
-label.pack()
+rightFrame = Frame(root, width=400, height=500, bg="blue")
+rightFrame.pack(side=RIGHT)
 
-# Makes window continue to be on screen. Without it, it pops up and closes.
-# Infinite loop to continue to display window until desired action is done.
+leftTop = Frame(leftFrame, width=100, height=250, bg="yellow")
+leftTop.pack(side=TOP)
+
+leftBottom = Frame(leftFrame, width=100, height=250, bg="purple")
+leftBottom.pack(side=BOTTOM)
+
+
 root.mainloop()
