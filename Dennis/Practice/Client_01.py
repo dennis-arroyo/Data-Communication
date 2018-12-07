@@ -1,22 +1,21 @@
 import socket
+import time
 
-HOST = socket.gethostbyname("")
+HOST = socket.gethostname()
 PORT = 7575
-
-playerName = input("Enter your name to start connection:")
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
 
-    s.sendall(playerName.encode())
+    i = 0
 
     while True:
 
-        msg = input()
-
-        s.sendall(msg.encode())
+        time.sleep(1.5)
+        s.sendall(str(i).encode())
         data = s.recv(1024)
 
-        print('Received:', repr(data))
+        print('Received:', int(data.decode()))
 
-        print(msg)
+        i += 1
+
