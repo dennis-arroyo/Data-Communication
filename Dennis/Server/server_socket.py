@@ -10,15 +10,27 @@ PORT = 7575
 clients = {}
 # player = 1
 player = ""
+arr = ["Dennis", "Angel"]
 
 
 def client_thread(conn, add, cl):
     while True:
+
         data = conn.recv(1024)
         reply = data.decode()
         if not data:
             break
-        conn.sendall(reply.encode())
+
+        extracted_players = [value for key, value in cl.items()]
+
+        players = ""
+
+        print(extracted_players)
+
+        for pl in extracted_players:
+            players += pl + ","
+
+        conn.sendall(players.encode())
 
 
 def other_clients(cl, current_address):
@@ -40,8 +52,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     while True:
         obj = s.accept()
         connection, address = obj
-        # clients[address[0] + ": " + str(address[1])] = "Player #" + str(player)
-        # player = connection.recv(1024)
-        # clients[address[0] + ":" + str(address[1])] = player.decode()
-        # player += 1
+        clients[address[0] + ": " + str(address[1])] = str(player)
+        player = connection.recv(1024)
+        clients[address[0] + ":" + str(address[1])] = player.decode()
         start_new_thread(client_thread, (connection, address, clients))

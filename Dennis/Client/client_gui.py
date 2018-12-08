@@ -42,57 +42,21 @@ def goal_click():
         win.pack
 
 
-# def init_connection():
-#     global playerName
-#     playerName = inputField.get()
-#     if playerName is not "":
-#         connectButton.destroy()
-#         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-#             print(HOST)
-#             s.connect((HOST, PORT))
-#
-#             s.sendall(playerName.encode())
-#
-#             # goal = Button(rightFrame, text="Start", bg="red", fg="white", command=goal_click)
-#             # photo = PhotoImage(file='Pi.PNG')
-#             # goal.config(image=photo)
-#             # goal.pack()
-#             # goal.place(x=random.randrange(0, windowWidth / 2), y=random.randrange(0, windowHeight))
-#
-#             # button = Button(leftBottom, text="Refresh", fg="#f2dde4", command=refresh_data)
-#             # button.grid(row=3, column=0, pady=(10, 10))
-#
-#             # textbox.config(state=NORMAL)
-#             # textbox.insert(END, data + " connected" + '\n')
-#             # textbox.config(state=DISABLED)
-#
-#             data = s.recv(1024)
-#             textbox.config(state=NORMAL)
-#             textbox.insert(END, data.decode() + " connected" + '\n')
-#             textbox.config(state=DISABLED)
-
 def update_player_name():
     global playerName
     playerName = inputField.get()
 
-    textbox.config(state=NORMAL)
-    textbox.insert(END, playerName + " connected" + '\n')
-    textbox.config(state=DISABLED)
-
     if playerName is not "":
-        textFieldContent
-        refresh = Button(leftBottom, text="Refresh", fg="#f2dde4", command=update_get_info)
+        refresh = Button(leftBottom, text="Refresh", fg="#f2dde4", command=send_score)
         refresh.grid(row=3, column=0, pady=(10, 10))
 
         start_new_thread(socket_listener, (playerName, (HOST, PORT)))
 
 
-def update_get_info():
-    global textFieldContent
+def send_score():
+    global score
 
-    textbox.config(state=NORMAL)
-    textbox.insert(END, textFieldContent + " connected" + '\n')
-    textbox.config(state=DISABLED)
+    score = inputField.get()
 
 
 def socket_listener(player, physicalAddress):
@@ -118,9 +82,11 @@ def socket_listener(player, physicalAddress):
             else:
                 s.sendall(b"refresh")
                 textFieldContent = s.recv(1024)
+                formatFieldContent = textFieldContent.decode().split(",")
                 textbox.config(state=NORMAL)
                 textbox.delete('1.0', END)
-                textbox.insert(END, textFieldContent.decode() + " connected" + '\n')
+                for content in formatFieldContent:
+                    textbox.insert(END, content + " connected" + '\n')
                 textbox.config(state=DISABLED)
 
 # def refresh_data():
