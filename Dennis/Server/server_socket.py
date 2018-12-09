@@ -5,12 +5,18 @@ from _thread import *
 
 HOST = socket.gethostbyname("")
 
+# Pixel's raspberry pi ip address
+# HOST = "192.168.43.83"
+
+# Home router raspberry pi ip address
+# HOST = "192.168.8.166"
+
 PORT = 7575
 
 clients = {}
 # player = 1
-player = ""
-arr = ["Dennis", "Angel"]
+text_field = "Players \t\tScore \t\tPosition"
+player = text_field + "\n"
 
 
 def client_thread(conn, add, cl):
@@ -18,6 +24,7 @@ def client_thread(conn, add, cl):
 
         data = conn.recv(1024)
         reply = data.decode()
+        # print(reply)
         if not data:
             break
 
@@ -54,5 +61,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         connection, address = obj
         clients[address[0] + ": " + str(address[1])] = str(player)
         player = connection.recv(1024)
+        # print(player.decode())
         clients[address[0] + ":" + str(address[1])] = player.decode()
         start_new_thread(client_thread, (connection, address, clients))

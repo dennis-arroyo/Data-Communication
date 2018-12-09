@@ -4,7 +4,14 @@ import socket
 import time
 from _thread import *
 
-HOST = socket.gethostname()
+# HOST = socket.gethostname()
+
+# Pixel's raspberry pi ip address
+# HOST = "192.168.43.83"
+
+# Home router raspberry pi ip address
+HOST = "192.168.8.166"
+
 PORT = 7575
 
 count = 0
@@ -17,15 +24,16 @@ textFieldContent = ""
 
 score = ""
 
+text_field = "Players \t\tScore \t\tPosition\n\nDennis \t\t0 \t\tlosing" + "\nAngel \t\t19.12 \t\tlosing"
+player = text_field + "\nDennis \t\t20.23 \t\twinning" + "\nAngel \t\t19.12 \t\twinning"
+
 
 def game_instructions():
     return "Intructions:" \
            "\n1. Enter your username below and click connect to enter the game." \
-           "\n2. Wait for connection of other players" \
-           "\n3. When ready, click start game." \
-           "\n4. The goal of the game is to click the showned images as quickly as possible" \
-           "\n5. All players are going to receive the coordinates of all rounds" \
-           "\n6. The server is going to analyze the results and crown the winner"
+           "\n2. The goal of the game is to click the showed images as quickly as possible" \
+           "\n3. All players are going to receive the same coordinates of the images" \
+           "\n4. After finishing the game, the server will send the scores of the players"
 
 
 def goal_click():
@@ -47,6 +55,7 @@ def update_player_name():
     playerName = inputField.get()
 
     if playerName is not "":
+
         refresh = Button(leftBottom, text="Refresh", fg="#f2dde4", command=send_score)
         refresh.grid(row=3, column=0, pady=(10, 10))
 
@@ -86,7 +95,7 @@ def socket_listener(player, physicalAddress):
                 textbox.config(state=NORMAL)
                 textbox.delete('1.0', END)
                 for content in formatFieldContent:
-                    textbox.insert(END, content + " connected" + '\n')
+                    textbox.insert(END, content + '\n')
                 textbox.config(state=DISABLED)
 
 # def refresh_data():
@@ -132,7 +141,6 @@ textbox = Text(leftTop, fg="#44b38b")
 textbox.pack(fill=BOTH, expand=TRUE)
 textbox.place(x=0, y=0)
 
-
 for player in players:
     textbox.insert(END, player + " connected" + '\n')
     print(textbox.get(1.0, END))
@@ -151,6 +159,11 @@ inputField.grid(row=2, column=0, pady=(10, 10))
 
 connectButton = Button(leftBottom, text="Connect", fg="#f2dde4", command=update_player_name)
 connectButton.grid(row=3, column=0, pady=(10, 10))
+
+photo = PhotoImage(file='raspberry.PNG')
+goal = Button(rightFrame, image=photo, width=120, height=120, bg="#b3446c", fg="white", command=goal_click)
+goal.grid()
+goal.place(x=random.randrange(0, windowWidth / 2), y=random.randrange(0, 600))
 
 root.mainloop()
 
