@@ -4,13 +4,13 @@ import socket
 import time
 from _thread import *
 
-# HOST = socket.gethostname()
+HOST = socket.gethostbyname("")
 
 # Pixel's raspberry pi ip address
 # HOST = "192.168.43.83"
 
 # Home router raspberry pi ip address
-HOST = "192.168.8.166"
+# HOST = "192.168.8.166"
 
 PORT = 7575
 
@@ -56,7 +56,7 @@ def update_player_name():
 
     if playerName is not "":
 
-        refresh = Button(leftBottom, text="Refresh", fg="#f2dde4", command=send_score)
+        refresh = Button(leftBottom, text="Send Results", fg="#f2dde4", command=send_score)
         refresh.grid(row=3, column=0, pady=(10, 10))
 
         start_new_thread(socket_listener, (playerName, (HOST, PORT)))
@@ -65,7 +65,7 @@ def update_player_name():
 def send_score():
     global score
 
-    score = inputField.get()
+    score = "45"
 
 
 def socket_listener(player, physicalAddress):
@@ -83,10 +83,9 @@ def socket_listener(player, physicalAddress):
             global score
 
             if score is not "":
+                print("Asking for score")
+                print(score)
                 s.sendall(score.encode())
-                data = s.recv(1024)
-                textFieldContent = data.decode()
-                print(textFieldContent)
                 score = ""
             else:
                 s.sendall(b"refresh")
