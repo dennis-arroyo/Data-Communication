@@ -15,8 +15,8 @@ PORT = 7575
 
 clients = {}
 # player = 1
-text_field = "Players \t\tScore \t\tPosition"
-player = text_field + "\n"
+text_field = "Players \t\tScore \t\tPosition\n\n"
+player = ""
 
 
 def client_thread(conn, add, cl):
@@ -32,10 +32,11 @@ def client_thread(conn, add, cl):
 
         players = ""
 
-        print(extracted_players)
+        # for pl in extracted_players:
+        #     players += pl + ","
 
-        for pl in extracted_players:
-            players += pl + ","
+        for p in extracted_players:
+            players += p[0] + "\t\t" + p[1] + "\t\t" + p[2] + "\n"
 
         conn.sendall(players.encode())
 
@@ -59,8 +60,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     while True:
         obj = s.accept()
         connection, address = obj
-        clients[address[0] + ": " + str(address[1])] = str(player)
         player = connection.recv(1024)
         # print(player.decode())
-        clients[address[0] + ":" + str(address[1])] = player.decode()
-        start_new_thread(client_thread, (connection, address, clients))
+        concatenated_address = address[0] + ":" + str(address[1])
+        clients[concatenated_address] = [player.decode(), "0", "null"]
+        print(clients)
+        start_new_thread(client_thread, (connection, concatenated_address, clients))
