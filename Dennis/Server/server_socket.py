@@ -17,28 +17,34 @@ clients = {}
 # player = 1
 text_field = "Players \t\tScore \t\tPosition\n\n"
 player = ""
+score = "0"
 
 
 def client_thread(conn, add, cl):
     while True:
 
+        global score
+
         data = conn.recv(1024)
         reply = data.decode()
-        # print(reply)
+        print(type(reply))
+        # print(cl[add])
         if not data:
             break
+        if reply == "45":
+            cl[add][1] = reply
+        else:
+            extracted_players = [value for key, value in cl.items()]
 
-        extracted_players = [value for key, value in cl.items()]
+            players = ""
 
-        players = ""
+            # for pl in extracted_players:
+            #     players += pl + ","
 
-        # for pl in extracted_players:
-        #     players += pl + ","
+            for p in extracted_players:
+                players += p[0] + "\t\t" + p[1] + "\t\t" + p[2] + "\n"
 
-        for p in extracted_players:
-            players += p[0] + "\t\t" + p[1] + "\t\t" + p[2] + "\n"
-
-        conn.sendall(players.encode())
+            conn.sendall(players.encode())
 
 
 def other_clients(cl, current_address):
@@ -64,5 +70,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         # print(player.decode())
         concatenated_address = address[0] + ":" + str(address[1])
         clients[concatenated_address] = [player.decode(), "0", "null"]
-        print(clients)
+        # print(clients)
         start_new_thread(client_thread, (connection, concatenated_address, clients))
