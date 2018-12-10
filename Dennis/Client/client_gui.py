@@ -1,5 +1,4 @@
 from tkinter import *
-import random
 import socket
 import time
 from _thread import *
@@ -28,9 +27,13 @@ text_field = "Players \t\tScore \t\tPosition\n\n"
 
 coordinates_x = ""
 coordinates_y = ""
-x = ""
-y = ""
+x_coordinates_values = ""
+y_coordinates_values = ""
 coordinates_counter = 0
+
+timer_start = 0
+timer_end = 0
+time_difference = 0
 
 
 def game_instructions():
@@ -45,44 +48,49 @@ def goal_click():
     global x
     global y
     global coordinates_counter
-    goal.place(x=int(x[coordinates_counter]), y=int(y[coordinates_counter]))
+    global timer_end
+    global time_difference
+
+    goal.place(x=int(x_coordinates_values[coordinates_counter]), y=int(y_coordinates_values[coordinates_counter]))
     coordinates_counter += 1
-    print(coordinates_counter)
     if coordinates_counter >= 5:
         goal.destroy()
-        label = Label(rightFrame, text="You Win!", bg="White", fg="Green")
-        label.place(x=425, y=100)
-        label.pack
-        win = Button(rightFrame, text="Exit", bg="red", fg="white", command=rightFrame.destroy)
-        win.place(x=425, y=300)
-        win.pack
+        timer_end = time.time()
+        time_difference = round(timer_end - timer_start, 2)
+        send_score_bottom = Button(leftBottom, text="Send Results", fg="#f2dde4", command=send_score)
+        send_score_bottom.grid(row=3, column=0, pady=(10, 10))
+        score_field = Label(leftBottom, text="You Win!", bg="White", fg="Green")
+        score_field.grid(row=4, column=0)
 
 
 def update_player_name():
     global playerName
+    global timer_start
+
     playerName = inputField.get()
 
     if playerName is not "":
+        connectButton.destroy()
 
-        refresh = Button(leftBottom, text="Send Results", fg="#f2dde4", command=send_score)
-        refresh.grid(row=3, column=0, pady=(10, 10))
+        timer_start = time.time()
 
         start_new_thread(socket_listener, (playerName, (HOST, PORT)))
 
 
 def send_score():
+    global time_difference
     global score
-
-    score = "45"
+    score = "get_score"
 
 
 def socket_listener(player, physicalAddress):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         global coordinates_x
         global coordinates_y
-        global x
-        global y
+        global x_coordinates_values
+        global y_coordinates_values
         global coordinates_counter
+        global score
 
         s.connect((physicalAddress[0], physicalAddress[1]))
 
@@ -92,16 +100,13 @@ def socket_listener(player, physicalAddress):
 
         coordinates_x, coordinates_y = coordinates.decode().split("-")
 
-        x = coordinates_x.split(",")
-        y = coordinates_y.split(",")
+        x_coordinates_values = coordinates_x.split(",")
+        y_coordinates_values = coordinates_y.split(",")
 
         goal.grid()
-        goal.place(x=int(x[coordinates_counter]), y=int(y[coordinates_counter]))
+        goal.place(x=int(x_coordinates_values[coordinates_counter]), y=int(y_coordinates_values[coordinates_counter]))
 
         coordinates_counter += 1
-
-        print(x)
-        print(y)
 
         while True:
 
@@ -112,18 +117,17 @@ def socket_listener(player, physicalAddress):
             global score
 
             if score is not "":
-                print("Asking for score")
-                print(score)
                 s.sendall(score.encode())
+                s.sendall(str(time_difference).encode())
                 score = ""
             else:
                 s.sendall(b"refresh")
                 textFieldContent = s.recv(1024)
-                formatFieldContent = textFieldContent.decode().split(",")
+                format_field_content = textFieldContent.decode().split(",")
                 textbox.config(state=NORMAL)
                 textbox.delete('1.0', END)
                 textbox.insert(END, text_field)
-                for content in formatFieldContent:
+                for content in format_field_content:
                     textbox.insert(END, content + '\n')
                 textbox.config(state=DISABLED)
 
@@ -170,9 +174,6 @@ textbox = Text(leftTop, fg="#44b38b")
 textbox.pack(fill=BOTH, expand=TRUE)
 textbox.place(x=0, y=0)
 
-for player in players:
-    textbox.insert(END, player + " connected" + '\n')
-    print(textbox.get(1.0, END))
 
 textbox.config(state=DISABLED)
 
