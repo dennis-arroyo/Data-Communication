@@ -19,7 +19,7 @@ clients = {}
 text_field = "Players \t\tScore \t\tPosition\n\n"
 player = ""
 score = "0"
-min_seconds = ["", "99999999999"]
+min_seconds = ["", "999999"]
 
 
 def client_thread(conn, add, cl):
@@ -27,8 +27,6 @@ def client_thread(conn, add, cl):
 
         global score
         global min_seconds
-
-        print("Real Address: " + add)
 
         data = conn.recv(1024)
         reply = data.decode()
@@ -38,7 +36,7 @@ def client_thread(conn, add, cl):
         if reply == "get_score":
             seconds = conn.recv(1024).decode()
             cl[add][1] = seconds
-            if seconds < min_seconds[1]:
+            if float(seconds) < float(min_seconds[1]):
                 min_seconds = []
                 min_seconds.append(add)
                 min_seconds.append(seconds)
@@ -46,7 +44,7 @@ def client_thread(conn, add, cl):
 
         else:
 
-            if add is min_seconds[0]:
+            if add == min_seconds[0]:
                 cl[add][2] = "winning"
             else:
                 cl[add][2] = "losing"
