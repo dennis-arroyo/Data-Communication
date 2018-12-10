@@ -31,8 +31,8 @@ def client_thread(conn, add, cl):
         # print(cl[add])
         if not data:
             break
-        if reply == "45":
-            cl[add][1] = reply
+        if reply == "get_score":
+            cl[add][1] = conn.recv(1024).decode()
         else:
             extracted_players = [value for key, value in cl.items()]
 
