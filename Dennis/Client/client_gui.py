@@ -24,8 +24,13 @@ textFieldContent = ""
 
 score = ""
 
-text_field = "Players \t\tScore \t\tPosition\n\nDennis \t\t0 \t\tlosing" + "\nAngel \t\t19.12 \t\tlosing"
-player = text_field + "\nDennis \t\t20.23 \t\twinning" + "\nAngel \t\t19.12 \t\twinning"
+text_field = "Players \t\tScore \t\tPosition\n\n"
+
+coordinates_x = ""
+coordinates_y = ""
+x = ""
+y = ""
+coordinates_counter = 0
 
 
 def game_instructions():
@@ -37,11 +42,14 @@ def game_instructions():
 
 
 def goal_click():
-    goal.place(x=random.randrange(50, windowWidth/2), y=random.randrange(50, windowHeight))
-    global count
-    count += 1
-    if count >= 4:
-        root.destroy()
+    global x
+    global y
+    global coordinates_counter
+    goal.place(x=int(x[coordinates_counter]), y=int(y[coordinates_counter]))
+    coordinates_counter += 1
+    print(coordinates_counter)
+    if coordinates_counter >= 5:
+        goal.destroy()
         label = Label(rightFrame, text="You Win!", bg="White", fg="Green")
         label.place(x=425, y=100)
         label.pack
@@ -70,9 +78,30 @@ def send_score():
 
 def socket_listener(player, physicalAddress):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        global coordinates_x
+        global coordinates_y
+        global x
+        global y
+        global coordinates_counter
+
         s.connect((physicalAddress[0], physicalAddress[1]))
 
         s.sendall(player.encode())
+
+        coordinates = s.recv(1024)
+
+        coordinates_x, coordinates_y = coordinates.decode().split("-")
+
+        x = coordinates_x.split(",")
+        y = coordinates_y.split(",")
+
+        goal.grid()
+        goal.place(x=int(x[coordinates_counter]), y=int(y[coordinates_counter]))
+
+        coordinates_counter += 1
+
+        print(x)
+        print(y)
 
         while True:
 
@@ -93,6 +122,7 @@ def socket_listener(player, physicalAddress):
                 formatFieldContent = textFieldContent.decode().split(",")
                 textbox.config(state=NORMAL)
                 textbox.delete('1.0', END)
+                textbox.insert(END, text_field)
                 for content in formatFieldContent:
                     textbox.insert(END, content + '\n')
                 textbox.config(state=DISABLED)
@@ -161,8 +191,6 @@ connectButton.grid(row=3, column=0, pady=(10, 10))
 
 photo = PhotoImage(file='raspberry.PNG')
 goal = Button(rightFrame, image=photo, width=120, height=120, bg="#b3446c", fg="white", command=goal_click)
-goal.grid()
-goal.place(x=random.randrange(0, windowWidth / 2), y=random.randrange(0, 600))
 
 root.mainloop()
 
