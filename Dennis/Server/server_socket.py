@@ -4,8 +4,8 @@ from _thread import *
 
 # HOST = '127.0.0.1'
 
-# HOST = socket.gethostbyname("")
-HOST = socket.gethostname()
+HOST = socket.gethostbyname("")
+# HOST = socket.gethostname()
 
 # Pixel's raspberry pi ip address
 # HOST = "192.168.43.83"
