@@ -59,8 +59,8 @@ def goal_click():
         time_difference = round(timer_end - timer_start, 2)
         send_score_bottom = Button(leftBottom, text="Send Results", fg="#f2dde4", command=send_score)
         send_score_bottom.grid(row=3, column=0, pady=(10, 10))
-        score_field = Label(leftBottom, text="You finished the game in:" + str(time_difference),
-                            bg="#b3446", fg="black")
+        score_field = Label(leftBottom, text="You finished the game in: " + str(time_difference) + "seconds",
+                            font=("Times New Roman", 18), bg="#f2dde4")
         score_field.grid(row=4, column=0)
 
 
@@ -148,7 +148,7 @@ h = root.winfo_screenheight()
 windowWidth = 950
 windowHeight = 650
 size = "950x700"
-x = w / 2 - windowWidth / 2 + 50
+x = w / 2 - windowWidth / 2
 y = h / 2 - windowHeight / 2
 
 root.geometry("950x700+%d+%d" % (x, y))
@@ -188,7 +188,7 @@ label.grid(row=1, column=0, pady=(10, 10))
 inputField = Entry(leftBottom, text="Username...", width=50)
 inputField.grid(row=2, column=0, pady=(10, 10))
 
-connectButton = Button(leftBottom, text="Connect", fg="#f2dde4", command=update_player_name)
+connectButton = Button(leftBottom, text="Connect", fg="black", command=update_player_name)
 connectButton.grid(row=3, column=0, pady=(10, 10))
 
 photo = PhotoImage(file='raspberry.PNG')
