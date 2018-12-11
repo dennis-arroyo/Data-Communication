@@ -4,7 +4,8 @@ from _thread import *
 
 # HOST = '127.0.0.1'
 
-HOST = socket.gethostbyname("")
+# HOST = socket.gethostbyname("")
+HOST = socket.gethostname()
 
 # Pixel's raspberry pi ip address
 # HOST = "192.168.43.83"
@@ -64,7 +65,7 @@ def get_numbers(orientation):
 
     counter = 0
 
-    while counter < 5:
+    while counter < 10:
         numbers += "," + str(random.randrange(orientation))
         counter += 1
 
