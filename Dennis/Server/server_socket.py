@@ -76,8 +76,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen()
 
-    x = get_numbers(475)
-    y = get_numbers(650)
+    x = get_numbers(455)
+    y = get_numbers(590)
 
     while True:
         obj = s.accept()
