@@ -3,10 +3,10 @@ import socket
 import time
 from _thread import *
 
-HOST = socket.gethostbyname("")
+# HOST = socket.gethostbyname("")
 
 # Pixel's raspberry pi ip address
-# HOST = "192.168.43.83"
+HOST = "192.168.43.83"
 
 # Home router raspberry pi ip address
 # HOST = "192.168.8.166"
@@ -53,13 +53,14 @@ def goal_click():
 
     goal.place(x=int(x_coordinates_values[coordinates_counter]), y=int(y_coordinates_values[coordinates_counter]))
     coordinates_counter += 1
-    if coordinates_counter >= 5:
+    if coordinates_counter >= 10:
         goal.destroy()
         timer_end = time.time()
         time_difference = round(timer_end - timer_start, 2)
         send_score_bottom = Button(leftBottom, text="Send Results", fg="#f2dde4", command=send_score)
         send_score_bottom.grid(row=3, column=0, pady=(10, 10))
-        score_field = Label(leftBottom, text="You Win!", bg="White", fg="Green")
+        score_field = Label(leftBottom, text="You finished the game in:" + str(time_difference),
+                            bg="#b3446", fg="black")
         score_field.grid(row=4, column=0)
 
 
@@ -147,7 +148,7 @@ h = root.winfo_screenheight()
 windowWidth = 950
 windowHeight = 650
 size = "950x700"
-x = w / 2 - windowWidth / 2
+x = w / 2 - windowWidth / 2 + 50
 y = h / 2 - windowHeight / 2
 
 root.geometry("950x700+%d+%d" % (x, y))
@@ -155,7 +156,7 @@ root.geometry("950x700+%d+%d" % (x, y))
 root.resizable(0, 0)
 
 leftFrame = Frame(root)
-leftFrame.pack(side=LEFT, fill=BOTH, expand=TRUE, padx=(0, 2))
+leftFrame.pack(side=LEFT, fill=BOTH, expand=FALSE, padx=(0, 2))
 
 leftFrame.configure(background='black')
 
